@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'Eina';
+    src: url('../assets/fonts/Eina/Eina01-Regular.ttf') format('truetype');
+  }
+
+*{
+    font-family: 'Eina', sans-serif;
+}
