@@ -16,6 +16,8 @@ const Signup = () => {
           <input type='text' className='border-b pb-2 border-gray-300 w-full' placeholder='Last Name'/>
           <input type='text' className='border-b pb-2 border-gray-300 w-full' placeholder='Email'/>
           <input type='text' className='border-b pb-2 border-gray-300 w-full' placeholder='Contact Number'/>
+          <input type='password' className='border-b pb-2 border-gray-300 w-full' placeholder='Password'/>
+          <input type='password' className='border-b pb-2 border-gray-300 w-full' placeholder='Confirm Password'/>
         </div>
         {/* buttons */}
         <div className='w-full'>
