@@ -6,6 +6,7 @@ import { login } from "../redux/userSlice";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -17,7 +18,7 @@ const Login = () => {
     }
   }, [userInfo, navigate]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }));
   };
@@ -32,21 +33,24 @@ const Login = () => {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
         <button type="submit" disabled={loading}>
           Login
         </button>
         <p>
-          <Link to={"/register"}>Create Account</Link>
+          <Link to="/register">Create Account</Link>
         </p>
       </form>
     </div>
   );
 };
+
 export default Login;
