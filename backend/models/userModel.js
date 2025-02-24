@@ -4,9 +4,13 @@ import validator from "validator"; // For email validation
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
+    fname: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, "First name is required"],
+    },
+    lname: {
+      type: String,
+      required: [true, "Last name is required"],
     },
     email: {
       type: String,
@@ -19,10 +23,24 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required"],
       minlength: [8, "Password must be at least 8 characters long"],
     },
-    isAdmin: {
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    profilePicture: {
+      type: String,
+      default: "",
+    },
+    resetPasswordToken: {
+      type: String,
+    },
+    resetPasswordExpires: {
+      type: Date,
+    },
+    isActive: {
       type: Boolean,
-      required: true,
-      default: false,
+      default: true,
     },
   },
   {

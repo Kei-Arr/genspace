@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../redux/userSlice";
 
 const Register = () => {
-  const [name, setName] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -18,9 +20,9 @@ const Register = () => {
     }
   }, [userInfo, navigate]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(register({ name, email, password }));
+    dispatch(register({ fname, lname, email, password }));
   };
 
   return (
@@ -30,28 +32,38 @@ const Register = () => {
         {loading && <div className="alert alert-info">Loading...</div>}
         <input
           type="text"
-          placeholder="Username"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          placeholder="First Name"
+          value={fname}
+          onChange={(e) => setFname(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Last Name"
+          value={lname}
+          onChange={(e) => setLname(e.target.value)}
+          required
         />
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
         <button type="submit" disabled={loading}>
           Register
         </button>
         <p>
-          <Link to={"/login"}>
-            I Have Account <strong>Login</strong>
+          <Link to="/login">
+            I Have an Account <strong>Login</strong>
           </Link>
         </p>
       </form>

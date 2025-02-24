@@ -7,79 +7,70 @@ axios.defaults.baseURL = "http://localhost:3001";
 
 // REGISTER NEW USER
 export const register = createAsyncThunk(
-  "users/register",
-  async ({ name, email, password }, { rejectWithValue }) => {
+  "user/register",
+  async ({ fname, lname, email, password }, { rejectWithValue }) => {
     try {
-      const config = {
-        headers: { "Content-Type": "application/json" },
-      };
-      const { data } = await axios.post(
-        "/api/users/register",
-        { name, email, password },
-        config
-      );
-      // Optionally, auto-login after registration:
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      const { data } = await axios.post("/api/users/register", {
+        fname,
+        lname,
+        email,
+        password,
+      });
       return data;
     } catch (error) {
-      const message =
+      return rejectWithValue(
         error.response && error.response.data.message
           ? error.response.data.message
-          : error.message;
-      return rejectWithValue(message);
+          : error.message
+      );
     }
   }
 );
 
 // LOGIN USER
 export const login = createAsyncThunk(
-  "users/login",
+  "user/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const config = {
-        headers: { "Content-Type": "application/json" },
-      };
-      const { data } = await axios.post(
-        "/api/users/login",
-        { email, password },
-        config
-      );
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      const { data } = await axios.post("/api/users/login", {
+        email,
+        password,
+      });
       return data;
     } catch (error) {
-      const message =
+      return rejectWithValue(
         error.response && error.response.data.message
           ? error.response.data.message
-          : error.message;
-      return rejectWithValue(message);
+          : error.message
+      );
     }
   }
 );
 
-// GET USER DETAILS
-export const getUserDetails = createAsyncThunk(
-  "user/details",
-  async (id, { getState, rejectWithValue }) => {
-    try {
-      const {
-        user: { userInfo },
-      } = getState();
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
-      const { data } = await axios.get(`/api/users/${id}`, config);
-      return data;
-    } catch (error) {
-      const message =
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message;
-      return rejectWithValue(message);
-    }
-  }
-);
+// // GET USER DETAILS
+// export const getUserDetails = createAsyncThunk(
+//   "user/details",
+//   async (id, { getState, rejectWithValue }) => {
+//     try {
+//       const {
+//         user: { userInfo },
+//       } = getState();
+//       const config = {
+//         headers: {
+//           Authorization: `Bearer ${userInfo.token}`,
+//         },
+//       };
+//       const { data } = await axios.get(`/api/users/${id}`, config);
+//       return data;
+//     } catch (error) {
+//       const message =
+//         error.response && error.response.data.message
+//           ? error.response.data.message
+//           : error.message;
+//       return rejectWithValue(message);
+//     }
+//   }
+// );
 
 // Initial State
 const initialState = {
@@ -125,9 +116,8 @@ const userSlice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
-    // LOGIN
-    builder
+      })
+      // Login
       .addCase(login.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -140,20 +130,20 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
-    // GET USER DETAILS
-    builder
-      .addCase(getUserDetails.pending, (state) => {
-        state.userDetails.loading = true;
-        state.userDetails.error = null;
-      })
-      .addCase(getUserDetails.fulfilled, (state, action) => {
-        state.userDetails.loading = false;
-        state.userDetails.user = action.payload;
-      })
-      .addCase(getUserDetails.rejected, (state, action) => {
-        state.userDetails.loading = false;
-        state.userDetails.error = action.payload;
-      });
+    // // GET USER DETAILS
+    // builder
+    //   .addCase(getUserDetails.pending, (state) => {
+    //     state.userDetails.loading = true;
+    //     state.userDetails.error = null;
+    //   })
+    //   .addCase(getUserDetails.fulfilled, (state, action) => {
+    //     state.userDetails.loading = false;
+    //     state.userDetails.user = action.payload;
+    //   })
+    //   .addCase(getUserDetails.rejected, (state, action) => {
+    //     state.userDetails.loading = false;
+    //     state.userDetails.error = action.payload;
+    //   });
   },
 });
 

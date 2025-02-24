@@ -12,9 +12,10 @@ export const loginUser = asyncHandler(async (req, res) => {
   if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
-      name: user.name,
+      fname: user.fname,
+      lname: user.lname,
       email: user.email,
-      isAdmin: user.isAdmin,
+      isAdmin: user.role === "admin",
       token: generateToken(user._id),
       createdAt: user.createdAt,
     });
@@ -28,7 +29,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/register
 // @access  Public
 export const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { fname, lname, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -37,7 +38,8 @@ export const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    name,
+    fname,
+    lname,
     email,
     password,
   });
@@ -45,9 +47,10 @@ export const registerUser = asyncHandler(async (req, res) => {
   if (user) {
     res.status(201).json({
       _id: user._id,
-      name: user.name,
+      fname: user.fname,
+      lname: user.lname,
       email: user.email,
-      isAdmin: user.isAdmin,
+      isAdmin: user.role === "admin",
       token: generateToken(user._id),
       createdAt: user.createdAt,
     });

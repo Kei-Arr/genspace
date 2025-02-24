@@ -47,7 +47,7 @@ const Home = () => {
                   />
                 </div>
                 <div className="d-flex justify-content-between align-items-center mt-3">
-                  <h3 className="product-name">Welcome {userInfo?.name}!</h3>
+                  <h3 className="product-name">Welcome {userInfo?.fname}!</h3>
                   <button
                     onClick={handleLogout}
                     className="round-black-btn"
